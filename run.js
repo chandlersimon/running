@@ -603,40 +603,9 @@
                 })
                 .catch(error => console.error('Error fetching GPX file:', error));
         };
-   
-const batchSize = 10;  // Set the number of GPX files to process in each batch
-    let batchIndex = 0;
 
-    const processBatch = () => {
-        const batch = gpxFilesArray.slice(batchIndex, batchIndex + batchSize);
-
-        batch.forEach((gpxFile, index) => {
-            const runItemTemplate = document.querySelector('.run-item');
-            const runItemClone = runItemTemplate.cloneNode(true);
-            const mapContainer = runItemClone.querySelector('.map-container');
-
-            mapContainer.dataset.gpxUrl = gpxFile;
-            mapContainer.dataset.date = '';  // You can set the date if needed
-
-            parentElement.appendChild(runItemClone);
-
-            createMapForCollectionItem(gpxFile, mapContainer, () => {
-                // Callback function after map initialization
-            });
-        });
-
-        batchIndex += batchSize;
-
-        if (batchIndex < gpxFilesArray.length) {
-            // Process the next batch after a short delay to prevent blocking the main thread
-            setTimeout(processBatch, 50);
-        }
-    };
-
-    const initializeMaps = () => {
-        const parentElement = document.querySelector('.collection-list');
-        processBatch();  // Start processing the batches
-    };
+        const initializeMaps = () => {
+            const parentElement = document.querySelector('.collection-list');
 
             // Iterate through the GPX files array
             gpxFilesArray.forEach((gpxFile, index) => {
